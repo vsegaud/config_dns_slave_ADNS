@@ -1,0 +1,31 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+key "tsig" {
+	algorithm HMAC-SHA256;
+	secret "5sXOztB8XAzuXX/Zpn3Mow==";
+};
+
+server 192.168.0.1 {
+	keys { tsig; };
+};
+
+zone "tigaud.fr" IN {
+	type slave;
+	file "/etc/bind/db.tigaud.fr";
+	masters { 192.168.0.1; };
+
+};	
+
+zone "0.168.192.in-addr.arpa" IN {
+	type slave;
+	file "/etc/bind/db.tigaud.fr.inv";
+	masters { 192.168.0.1; };
+
+};
+	
